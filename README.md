@@ -8,7 +8,7 @@ This project shows how to handle the LEDs on the stm32f4discovery board by using
 Os : Mac os x Sierra / Xubuntu 16.04  
 IDE : System Workbench for STM32 / Qtcreator  
 The stm32f4discovery board.
-An USB to Uart_3v3 cable, and 3 wires to connect the bord to the USB/UART converter.  
+An USB to Uart_3v3 converter, and 3 wires to connect the bord to the USB/UART converter.  
 A USB cable to power and load a program to the stm32.
 
 ## 2. File organization
