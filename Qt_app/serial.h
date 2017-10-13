@@ -1,23 +1,23 @@
 #ifndef SERIAL_H
 #define SERIAL_H
 
-#include <QSerialPort>
-#include <QSerialPortInfo>
 #include <QWidget>
 
+/*
+ * MY_SERIAL_PORT need to be updated
+ */
 #define MY_SERIAL_PORT "tty.usbserial-A703FUO1"
+
+class QSerialPort;
 
 class Serial : public QWidget
 {
 public:
-
-    Serial(QWidget *parent = 0);
-
-    QSerialPort *m_serial;
-    QString *m_readData;
-
+    
+    Serial(QWidget *parent = nullptr);
     ~Serial();
-
+    
+    QSerialPort *m_serial;
 };
 
 #endif // SERIAL_H
