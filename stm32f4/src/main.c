@@ -24,45 +24,11 @@ uint8_t aTxBuffer[4], aRxBuffer[4];
 
 /* Private function prototypes -----------------------------------------------*/
 static void Error_Handler(void);
-static int16_t Buffercmp(uint8_t* pBuffer1, uint8_t* pBuffer2,
-		uint16_t BufferLength);
+static int16_t Buffercmp(uint8_t* pBuffer1, uint8_t* pBuffer2, uint16_t BufferLength);
 static void RunningLight(void);
 static void LedHandler(void);
+void HAL_UART_MspInit(UART_HandleTypeDef *huart);
 
-/**
- * UART MSP Initialization
- *        This function configures the hardware resources used in this example:
- *           - Peripheral's clock enable
- *           - Peripheral's GPIO Configuration
- *           - NVIC configuration for UART interrupt request enable
- * huart: UART handle pointer
- */
-void HAL_UART_MspInit(UART_HandleTypeDef *huart) {
-	GPIO_InitTypeDef GPIO_InitStruct;
-
-	/* Enable USART2 clock */
-	__HAL_RCC_USART2_CLK_ENABLE();
-	/* Enable GPIO TX/RX clock */
-	__HAL_RCC_GPIOA_CLK_ENABLE();
-
-	/* UART TX GPIO pin configuration  */
-	GPIO_InitStruct.Pin = GPIO_PIN_2;		//page 47 (STM32F407 datasheet)
-	GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-	GPIO_InitStruct.Pull = GPIO_PULLUP;  //or : GPIO_NOPULL
-	GPIO_InitStruct.Speed = GPIO_SPEED_FAST;
-	GPIO_InitStruct.Alternate = GPIO_AF7_USART2;	//page 408
-
-	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-	/* UART RX GPIO pin configuration  */
-	GPIO_InitStruct.Pin = GPIO_PIN_3;		//page 47 (STM32F407 datasheet)
-
-	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-	/* NVIC for USART2 */
-	HAL_NVIC_SetPriority(USART2_IRQn, 0, 1); //Configure the USARTx interrupt priority.
-	HAL_NVIC_EnableIRQ(USART2_IRQn);	//Enable the NVIC USART IRQ handle
-}
 
 int main(void) {
 
@@ -144,6 +110,41 @@ int main(void) {
 }
 
 /**
+ * UART MSP Initialization
+ *        This function configures the hardware resources used in this example:
+ *           - Peripheral's clock enable
+ *           - Peripheral's GPIO Configuration
+ *           - NVIC configuration for UART interrupt request enable
+ * huart: UART handle pointer
+ */
+void HAL_UART_MspInit(UART_HandleTypeDef *huart) {
+	GPIO_InitTypeDef GPIO_InitStruct;
+
+	/* Enable USART2 clock */
+	__HAL_RCC_USART2_CLK_ENABLE();
+	/* Enable GPIO TX/RX clock */
+	__HAL_RCC_GPIOA_CLK_ENABLE();
+
+	/* UART TX GPIO pin configuration  */
+	GPIO_InitStruct.Pin = GPIO_PIN_2;		//page 47 (STM32F407 datasheet)
+	GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+	GPIO_InitStruct.Pull = GPIO_PULLUP;  //or : GPIO_NOPULL
+	GPIO_InitStruct.Speed = GPIO_SPEED_FAST;
+	GPIO_InitStruct.Alternate = GPIO_AF7_USART2;	//page 408
+
+	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+	/* UART RX GPIO pin configuration  */
+	GPIO_InitStruct.Pin = GPIO_PIN_3;		//page 47 (STM32F407 datasheet)
+
+	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+	/* NVIC for USART2 */
+	HAL_NVIC_SetPriority(USART2_IRQn, 0, 1); //Configure the USARTx interrupt priority.
+	HAL_NVIC_EnableIRQ(USART2_IRQn);	//Enable the NVIC USART IRQ handle
+}
+
+/**
  * Compares two buffers.
  * pBuffer1, pBuffer2: buffers to be compared.
  * BufferLength: buffer's length
@@ -168,15 +169,10 @@ static int16_t Buffercmp(uint8_t* pBuffer1, uint8_t* pBuffer2,
  */
 static void RunningLight(void) {
 	BSP_LED_Off(LED3); BSP_LED_Off(LED4); BSP_LED_Off(LED5); BSP_LED_Off(LED6);
-	HAL_Delay(50); BSP_LED_On(LED3);
-	HAL_Delay(50); BSP_LED_Off(LED3);
-	HAL_Delay(50); BSP_LED_On(LED5);
-	HAL_Delay(50); BSP_LED_Off(LED5);
-	HAL_Delay(50); BSP_LED_On(LED6);
-	HAL_Delay(50); BSP_LED_Off(LED6);
-	HAL_Delay(50); BSP_LED_On(LED4);
-	HAL_Delay(50); BSP_LED_Off(LED4);
-	HAL_Delay(50);
+	for(int i=0;i<4;++i)
+	{
+	HAL_Delay(50); BSP_LED_On(i); HAL_Delay(50); BSP_LED_Off(i);
+	}
 	aTxBuffer[0] =  aTxBuffer[1] =  aTxBuffer[2] =  aTxBuffer[3] = '0';
 }
 
