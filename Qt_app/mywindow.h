@@ -2,9 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QWidget>
-#include <QPushButton>
+#include <QMap>
+#include <QPair>
 
-#include "serial.h"
+
+class QPushButton;
+class Serial;
 
 class MyWindow : public QWidget
 {
@@ -12,28 +15,26 @@ class MyWindow : public QWidget
 
 public:
     MyWindow(QWidget *parent = 0);
-    QPushButton *m_tabButton [4];
-    QPushButton *m_pushChen;
-
-    Serial *m_com;
-
-    char m_ledState[4];
-
+    QPushButton *m_tabButton [5];
+    QPair<QString, QString> m_defaultStyleSheet;
+    QMap<int, QPair<QString, QString>> m_styleSheetMap;
     ~MyWindow();
 
 private slots:
-    void handleButtonLED3(void);
-    void handleButtonLED4(void);
-    void handleButtonLED5(void);
-    void handleButtonLED6(void);
-    void handleButtonChen(void);
-
+    void handleButton();
     void handleReadyRead();
 
 private:
-    void ledOn(int);
-    void ledOff(int);
-    void allLedOff(void);
+
+    char m_ledState[4];
+    Serial *m_com;
+
+    void ledOn(const int &select);
+    void ledOff(const int &select);
+    void allLedOff();
+
+    void init();
+    void connection();
 
 
 };
