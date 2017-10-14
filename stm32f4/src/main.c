@@ -40,7 +40,7 @@ int main(void) {
 	 */
 	HAL_Init();
 
-	SystemClock_Config();
+	//SystemClock_Config();
 
 	/* Configure LED3, LED4, LED5 and LED6 */
 	BSP_LED_Init(LED3); BSP_LED_Init(LED4); BSP_LED_Init(LED5); BSP_LED_Init(LED6);
