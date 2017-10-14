@@ -28,7 +28,8 @@ For the Qt project, You need to :
 - Then build and finally run your program.
 - On Linux OS, you need to add the $USER to the dialout group if you want to run the application from Qtcreator.  
 ```bash
-sudo adduser $USER dialout
+sudo adduser $USER dialout  
+sudo reboot
 ```
 
 For the stm32f4discovery :
