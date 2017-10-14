@@ -25,7 +25,11 @@ For the Qt project, You need to :
 - Install the latest Qt Creator version with Qt 5.7 or higher.  
 - Open the project by double clicking on stm32_app.pro.
 - Run qmake
-- Then build and finally run your program.  
+- Then build and finally run your program.
+- On Linux OS, you need to add the $USER to the dialout group if you want to run the application from Qtcreator.  
+```bash
+sudo adduser $USER dialout
+```
 
 For the stm32f4discovery :
 - Install System Workbench for STM32.
