@@ -7,6 +7,7 @@
 
 MyWindow::MyWindow(QWidget *parent) : QWidget(parent)
 {
+    m_ledState[4]='\0';
     init();
     connection();
     allLedOff();
@@ -91,10 +92,11 @@ void MyWindow::allLedOff()
 
 void MyWindow::handleReadyRead()
 {
-    QByteArray _data;
-    _data.append(m_com->m_serial->readAll());
-    char *_read;
-    _read = _data.data();
+    QByteArray _data = m_com->m_serial->readAll();
+    while (m_com->m_serial->waitForReadyRead(30))
+            _data += m_com->m_serial->readAll();
+
+    char *_read = _data.data();
 
     for (int i = 0; i < 4; ++i){
         if(_read[i]=='1')

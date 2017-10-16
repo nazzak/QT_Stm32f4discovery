@@ -26,7 +26,7 @@ private slots:
 
 private:
 
-    char m_ledState[4];
+    char m_ledState[5];
     Serial *m_com;
 
     void ledOn(const int &select);
