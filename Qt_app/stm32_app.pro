@@ -36,3 +36,5 @@ HEADERS += \
 CONFIG += mobility
 MOBILITY = 
 
+QMAKE_CXXFLAGS += -std=c++0x
+

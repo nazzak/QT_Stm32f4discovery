@@ -17,7 +17,7 @@ public:
     MyWindow(QWidget *parent = 0);
     QPushButton *m_tabButton [5];
     QPair<QString, QString> m_defaultStyleSheet;
-    QMap<int, QPair<QString, QString>> m_styleSheetMap;
+    QMap<int, QPair<QString, QString> > m_styleSheetMap;
     ~MyWindow();
 
 private slots:
